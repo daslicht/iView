@@ -1,11 +1,13 @@
 /**
  * jQuery iView Slider v2.0
  * 
- * @version: 2.0.1 - August 17, 2012
+ * @version: 2.0.2 - June 17, 2014
  * 
  * @author: Hemn Chawroka
  *          hemn@iprodev.com
  *          http://iprodev.com/
+ * @editor: Marc Wensauer
+ 			http://github.com/daslicht
  * 
  */ (function ($, window, undefined) {
 
@@ -14,8 +16,8 @@
 			var iv = this;
 
 			iv.options = options;
-
-			iv.sliderContent = el, iv.sliderInner = iv.sliderContent.html();
+			iv.sliderContent = el, 
+			iv.sliderInner = iv.sliderContent.html();
 
 			iv.sliderContent.html("<div class='iviewSlider'>" + iv.sliderInner + "</div>");
 
@@ -271,7 +273,7 @@
 			}
 
 			//Play/Pause action
-			iv.iviewTimer.live('click', function () {
+			iv.iviewTimer.on('click', function () {
 				if (iv.iviewTimer.hasClass('paused')) {
 					iv.playSlider();
 				} else {
@@ -317,7 +319,7 @@
 			//Bind the resize action
 			iv.sliderContent.bind('resize', function () {
 				
-				t = $(this),
+				var t = $(this),
 				tW = t.width(),
 				tH = t.height(),
 				width = iv.slider.width(),
@@ -424,14 +426,14 @@
 					}, 300);
 				});
 
-				$('a.iview-prevNav', iv.sliderContent).live('click', function () {
+				$('a.iview-prevNav', iv.sliderContent).on('click', function () {
 					if (iv.defs.lock) return false;
 					iv.cleanTimer();
 					iv.defs.slide -= 2;
 					iv.goTo('prev');
 				});
 
-				$('a.iview-nextNav', iv.sliderContent).live('click', function () {
+				$('a.iview-nextNav', iv.sliderContent).on('click', function () {
 					if (iv.defs.lock) return false;
 					iv.cleanTimer();
 					iv.goTo('next');
@@ -446,12 +448,13 @@
 				iviewControl += '<div class="iview-items"><ul>';
 				for (var i = 0; i < iv.defs.total; i++) {
 					var slide = iv.slides.eq(i);
+					var thumb = "";
 					iviewControl += '<li>';
 					if (iv.options.controlNavThumbs) {
-						var thumb = (slide.data('iview:thumbnail')) ? slide.data('iview:thumbnail') : slide.data('iview:image');
+						thumb = (slide.data('iview:thumbnail')) ? slide.data('iview:thumbnail') : slide.data('iview:image');
 						iviewControl += '<a class="iview-control" rel="' + i + '"><img src="' + thumb + '" /></a>';
 					} else {
-						var thumb = (slide.data('iview:thumbnail')) ? slide.data('iview:thumbnail') : slide.data('iview:image');
+						thumb = (slide.data('iview:thumbnail')) ? slide.data('iview:thumbnail') : slide.data('iview:image');
 						iviewControl += '<a class="iview-control" rel="' + i + '">' + (i + 1) + '</a>';
 						if (iv.options.controlNavTooltip) iviewTooltip += '<div rel="' + i + '"><img src="' + thumb + '" /></div>';
 					}
@@ -468,20 +471,20 @@
 				//Set initial active link
 				$('.iview-controlNav a.iview-control:eq(' + iv.defs.slide + ')', iv.sliderContent).addClass('active');
 
-				$('a.iview-controlPrevNav', iv.sliderContent).live('click', function () {
+				$('a.iview-controlPrevNav', iv.sliderContent).on('click', function () {
 					if (iv.defs.lock) return false;
 					iv.cleanTimer();
 					iv.defs.slide -= 2;
 					iv.goTo('prev');
 				});
 
-				$('a.iview-controlNextNav', iv.sliderContent).live('click', function () {
+				$('a.iview-controlNextNav', iv.sliderContent).on('click', function () {
 					if (iv.defs.lock) return false;
 					iv.cleanTimer();
 					iv.goTo('next');
 				});
 
-				$('.iview-controlNav a.iview-control', iv.sliderContent).live('click', function () {
+				$('.iview-controlNav a.iview-control', iv.sliderContent).on('click', function () {
 					if (iv.defs.lock) return false;
 					if ($(this).hasClass('active')) return false;
 					iv.cleanTimer();
